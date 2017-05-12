@@ -1,22 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase; 
-
-function strip_newlines($input) {
-	return preg_replace('/(\r\n|\r|\n)/', '', $input);
-}
-
-function strip_tabs($input) {
-	return preg_replace('/\t/', '', $input);
-}
-
-function strip_inline_comments($input) {
-	return preg_replace('/\/\/.*\n/', '', $input);
-}
-
-function strip_multiline_comments($input) {
-	return preg_replace('|\/\*[.\s\w]*\*\/\s+|m', '', $input);
-}
+use Phpmnfy\Strip;
 
 final class SomeTest extends TestCase
 {
@@ -28,7 +13,7 @@ div.container {
 }
 EOT;
 		$minified = 'div.container {	padding: 12px 6px;}';
-		$this->assertEquals($minified, strip_newlines($formatted));
+		$this->assertEquals($minified, Strip::strip_newlines($formatted));
 	}
 
 	public function testStripTabs()
@@ -45,7 +30,7 @@ padding: 12px 6px;
 margin-top: 8px;
 }
 EOT;
-		$this->assertEquals($minified, strip_tabs($formatted));
+		$this->assertEquals($minified, Strip::strip_tabs($formatted));
 	}
 
 	public function testStripTabsAndNewlines()
@@ -57,8 +42,8 @@ div.container {
 }
 EOT;
 		$minified = 'div.container {padding: 12px 6px;margin-top: 8px;}';
-		$this->assertEquals($minified, strip_tabs(
-				strip_newlines($formatted)
+		$this->assertEquals($minified, Strip::strip_tabs(
+				Strip::strip_newlines($formatted)
 			)
 		);
 	}
@@ -78,7 +63,7 @@ var props = {
 	padding: 0
 };
 EOT;
-		$this->assertEquals($minified, strip_inline_comments($formatted));
+		$this->assertEquals($minified, Strip::strip_inline_comments($formatted));
 	}
 
 	public function testStripMultilineComments()
@@ -105,6 +90,6 @@ html {
 	background: red;
 	};
 EEE;
-		$this->assertEquals($minified, strip_multiline_comments($formatted));
+		$this->assertEquals($minified, Strip::strip_multiline_comments($formatted));
 	}
 }
