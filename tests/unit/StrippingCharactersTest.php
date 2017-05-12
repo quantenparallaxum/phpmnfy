@@ -13,7 +13,7 @@ div.container {
 }
 EOT;
 		$minified = 'div.container {	padding: 12px 6px;}';
-		$this->assertEquals($minified, Strip::strip_newlines($formatted));
+		$this->assertEquals($minified, Strip::newlines($formatted));
 	}
 
 	public function testStripTabs()
@@ -30,7 +30,7 @@ padding: 12px 6px;
 margin-top: 8px;
 }
 EOT;
-		$this->assertEquals($minified, Strip::strip_tabs($formatted));
+		$this->assertEquals($minified, Strip::tabs($formatted));
 	}
 
 	public function testStripTabsAndNewlines()
@@ -42,8 +42,8 @@ div.container {
 }
 EOT;
 		$minified = 'div.container {padding: 12px 6px;margin-top: 8px;}';
-		$this->assertEquals($minified, Strip::strip_tabs(
-				Strip::strip_newlines($formatted)
+		$this->assertEquals($minified, Strip::tabs(
+				Strip::newlines($formatted)
 			)
 		);
 	}
@@ -63,7 +63,7 @@ var props = {
 	padding: 0
 };
 EOT;
-		$this->assertEquals($minified, Strip::strip_inline_comments($formatted));
+		$this->assertEquals($minified, Strip::inlineComments($formatted));
 	}
 
 	public function testStripMultilineComments()
@@ -90,6 +90,6 @@ html {
 	background: red;
 	};
 EEE;
-		$this->assertEquals($minified, Strip::strip_multiline_comments($formatted));
+		$this->assertEquals($minified, Strip::multilineComments($formatted));
 	}
 }
