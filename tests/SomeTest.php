@@ -10,6 +10,10 @@ function strip_tabs($input) {
 	return preg_replace('/\t/', '', $input);
 }
 
+function strip_inline_comments($input) {
+	return preg_replace('/\/\/.*\n/', '', $input);
+}
+
 final class SomeTest extends TestCase
 {
 	public function testStripNewlines()
@@ -53,5 +57,23 @@ EOT;
 				strip_newlines($formatted)
 			)
 		);
+	}
+
+	public function testStripInlineComments()
+	{
+		$formatted = <<<EOT
+// “This License” refers to version 3 of the GNU General Public License.
+var props = {
+	margin: 0,
+	padding: 0
+};
+EOT;
+		$minified = <<<EOT
+var props = {
+	margin: 0,
+	padding: 0
+};
+EOT;
+		$this->assertEquals($minified, strip_inline_comments($formatted));
 	}
 }
