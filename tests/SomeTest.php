@@ -14,6 +14,10 @@ function strip_inline_comments($input) {
 	return preg_replace('/\/\/.*\n/', '', $input);
 }
 
+function strip_multiline_comments($input) {
+	return preg_replace('|\/\*[.\s\w]*\*\/\s+|m', '', $input);
+}
+
 final class SomeTest extends TestCase
 {
 	public function testStripNewlines()
@@ -75,5 +79,32 @@ var props = {
 };
 EOT;
 		$this->assertEquals($minified, strip_inline_comments($formatted));
+	}
+
+	public function testStripMultilineComments()
+	{
+		$formatted = <<<'EOT'
+html {
+	/* margin */
+	margin: 0;
+	/* 
+		reset 
+		the
+		padding 
+	*/
+	padding: 0;
+	/* end of comments */
+	background: red;
+	/* really the end of comments */
+};
+EOT;
+		$minified = <<<EEE
+html {
+	margin: 0;
+	padding: 0;
+	background: red;
+	};
+EEE;
+		$this->assertEquals($minified, strip_multiline_comments($formatted));
 	}
 }
