@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase; 
 use Phpmnfy\Strip;
 
-final class SomeTest extends TestCase
+final class StrippingCharactersTest extends TestCase
 {
 	public function testStripNewlines()
 	{
