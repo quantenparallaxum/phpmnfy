@@ -37,7 +37,13 @@ EOT;
 
 		$filesystem = vfsStream::setup('root', 444, $directory);
 		$configurationFile = $filesystem->url() . '/mnfy.json';
-		$minifier = new Phpmnfy($configurationFile);
+		
+		$minifier = new Phpmnfy();
+		$minifier->asset('static/css/style.css')->to('dist/assets/css/style.css');
+		$minifier->asset('static/js/main.js')->to('dist/assets/js/main.js');
+		// alternatively
+		$minifier->css('static/css/styles.css', 'dist/assets/css/style.css')->js('static/js/main.js', 'dist/assets/js/main.js');
+		$minifier->run();
 
 		$this->assertEquals(['assets/styles.css'], $minifier->files);
 	}
