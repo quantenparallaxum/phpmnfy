@@ -12,8 +12,8 @@ div.container {
 	padding: 12px 6px;
 }
 EOT;
-        $minified = 'div.container {	padding: 12px 6px;}';
-        $this->assertEquals($minified, Strip::newlines($formatted));
+        $minimized = 'div.container {	padding: 12px 6px;}';
+        $this->assertEquals($minimized, Strip::newlines($formatted));
     }
 
     public function testStripTabs()
@@ -24,13 +24,13 @@ div.container {
 	margin-top: 8px;
 }
 EOT;
-        $minified = <<<'EOT'
+        $minimized = <<<'EOT'
 div.container {
 padding: 12px 6px;
 margin-top: 8px;
 }
 EOT;
-        $this->assertEquals($minified, Strip::tabs($formatted));
+        $this->assertEquals($minimized, Strip::tabs($formatted));
     }
 
     public function testStripTabsAndNewlines()
@@ -41,9 +41,9 @@ div.container {
 	margin-top: 8px;
 }
 EOT;
-        $minified = 'div.container {padding: 12px 6px;margin-top: 8px;}';
+        $minimized = 'div.container {padding: 12px 6px;margin-top: 8px;}';
         $this->assertEquals(
-            $minified,
+            $minimized,
             Strip::tabs(
                 Strip::newlines($formatted)
             )
@@ -59,13 +59,13 @@ var props = {
 	padding: 0
 };
 EOT;
-        $minified = <<<EOT
+        $minimized = <<<EOT
 var props = {
 	margin: 0,
 	padding: 0
 };
 EOT;
-        $this->assertEquals($minified, Strip::inlineComments($formatted));
+        $this->assertEquals($minimized, Strip::inlineComments($formatted));
     }
 
     public function testStripMultilineComments()
@@ -85,13 +85,13 @@ html {
 	/* really the end of comments */
 };
 EOT;
-        $minified = <<<EEE
+        $minimized = <<<EEE
 html {
 	margin: 0;
 	padding: 0;
 	background: red;
 	};
 EEE;
-        $this->assertEquals($minified, Strip::multilineComments($formatted));
+        $this->assertEquals($minimized, Strip::multilineComments($formatted));
     }
 }
