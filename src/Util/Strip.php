@@ -1,6 +1,6 @@
 <?php
 
-namespace Phpmnfy;
+namespace Phpmnfy\Util;
 
 class Strip
 {

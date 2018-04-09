@@ -4,6 +4,6 @@
         "friendsofphp/php-cs-fixer": "^2.11"
     },
     "autoload": {
-        "psr-4": {"Phpmnfy\\": "src/Phpmnfy"}
+        "psr-4": {"Phpmnfy\\": "src/"}
     }
 }

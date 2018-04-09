@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Phpmnfy\Strip;
+use Phpmnfy\Util\Strip;
 
 final class StrippingCharactersTest extends TestCase
 {
