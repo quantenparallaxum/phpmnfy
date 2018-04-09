@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Phpmnfy\Util\Strip;
 
-final class StrippingCharactersTest extends TestCase
+final class StripTest extends TestCase
 {
     public function testStripNewlines()
     {
@@ -52,14 +52,14 @@ EOT;
 
     public function testStripInlineComments()
     {
-        $formatted = <<<EOT
+        $formatted = <<<'EOT'
 // “This License” refers to version 3 of the GNU General Public License.
 var props = {
 	margin: 0,
 	padding: 0
 };
 EOT;
-        $minimized = <<<EOT
+        $minimized = <<<'EOT'
 var props = {
 	margin: 0,
 	padding: 0
@@ -85,13 +85,13 @@ html {
 	/* really the end of comments */
 };
 EOT;
-        $minimized = <<<EEE
+        $minimized = <<<'EOT'
 html {
 	margin: 0;
 	padding: 0;
 	background: red;
 	};
-EEE;
+EOT;
         $this->assertEquals($minimized, Strip::multilineComments($formatted));
     }
 }
