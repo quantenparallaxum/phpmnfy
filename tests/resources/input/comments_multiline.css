@@ -1,0 +1,13 @@
+html {
+	/* margin */
+	margin: 0;
+	/* 
+		reset 
+		the
+		padding 
+	*/
+	padding: 0;
+	/* end of comments */
+	background: red;
+	/* really the end of comments */
+};

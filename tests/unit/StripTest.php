@@ -5,93 +5,38 @@ use Phpmnfy\Util\Strip;
 
 final class StripTest extends TestCase
 {
+    public function getTestFiles($fileName)
+    {
+        $input          = file_get_contents(__DIR__ . '/../resources/input/' . $fileName);
+        $expectedOutput = file_get_contents(__DIR__ . '/../resources/expectedOutput/' . $fileName);
+        return [$input, $expectedOutput];
+    }
+
     public function testStripNewlines()
     {
-        $formatted = <<<'EOT'
-div.container {
-	padding: 12px 6px;
-}
-EOT;
-        $minimized = 'div.container {	padding: 12px 6px;}';
-        $this->assertEquals($minimized, Strip::newlines($formatted));
+        list($raw, $minimized) = $this->getTestFiles('newline.css');
+        $this->assertEquals($minimized, Strip::newlines($raw));
     }
 
     public function testStripTabs()
     {
-        $formatted = <<<'EOT'
-div.container {
-	padding: 12px 6px;
-	margin-top: 8px;
-}
-EOT;
-        $minimized = <<<'EOT'
-div.container {
-padding: 12px 6px;
-margin-top: 8px;
-}
-EOT;
-        $this->assertEquals($minimized, Strip::tabs($formatted));
-    }
-
-    public function testStripTabsAndNewlines()
-    {
-        $formatted = <<<'EOT'
-div.container {
-	padding: 12px 6px;
-	margin-top: 8px;
-}
-EOT;
-        $minimized = 'div.container {padding: 12px 6px;margin-top: 8px;}';
-        $this->assertEquals(
-            $minimized,
-            Strip::tabs(
-                Strip::newlines($formatted)
-            )
-        );
+        list($raw, $minimized) = $this->getTestFiles('tabs.css');
+        $this->assertEquals($minimized, Strip::tabs($raw));
     }
 
     public function testStripInlineComments()
     {
-        $formatted = <<<'EOT'
-// “This License” refers to version 3 of the GNU General Public License.
-var props = {
-	margin: 0,
-	padding: 0
-};
-EOT;
-        $minimized = <<<'EOT'
-var props = {
-	margin: 0,
-	padding: 0
-};
-EOT;
-        $this->assertEquals($minimized, Strip::inlineComments($formatted));
+        list($raw, $minimized) = $this->getTestFiles('comments_inline.css');
+        $this->assertEquals($minimized, Strip::inlineComments($raw));
     }
 
+    /**
+     * @todo: removing a comment might cause a problem with a tabulator,
+     * see ../resources/expectedOutput comments_multiline.css:5 as example
+     */
     public function testStripMultilineComments()
     {
-        $formatted = <<<'EOT'
-html {
-	/* margin */
-	margin: 0;
-	/* 
-		reset 
-		the
-		padding 
-	*/
-	padding: 0;
-	/* end of comments */
-	background: red;
-	/* really the end of comments */
-};
-EOT;
-        $minimized = <<<'EOT'
-html {
-	margin: 0;
-	padding: 0;
-	background: red;
-	};
-EOT;
-        $this->assertEquals($minimized, Strip::multilineComments($formatted));
+        list($raw, $minimized) = $this->getTestFiles('comments_multiline.css');
+        $this->assertEquals($minimized, Strip::multilineComments($raw));
     }
 }
